@@ -1,26 +1,23 @@
 <?php
-// Database credentials
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "inventory";
 
-// Create a connection
-$connection = new mysqli($host, $username, $password, $database);
+include 'db.php';
+
+
 
 // Check the connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
 }
 
 // User ID or username (replace with the actual value)
-$userId = 1;
+$userId = $_POST['id'];
+
 
 // SQL query to fetch data for a single user
-$sql = "SELECT * FROM your_table WHERE user_id = $userId";
+$sql = "SELECT * FROM users WHERE id = $userId";
 
 // Execute the query
-$result = $connection->query($sql);
+$result = $con->query($sql);
 
 // Convert the result set to JSON
 $response = array();
@@ -29,7 +26,7 @@ if ($result->num_rows > 0) {
 }
 
 // Close the connection
-$connection->close();
+$con->close();
 
 // Return the JSON response
 header('Content-Type: application/json');

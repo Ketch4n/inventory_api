@@ -9,7 +9,6 @@ $obj = json_decode($json, true);
 $email = $obj['username'];
 // Getting Password from JSON $obj array and store into $password.
 $password = $obj['password'];
-
 // Applying User Login query with email and password.
 $loginQuery = "SELECT * FROM users WHERE username = '$email' and password = '$password' ";
 
@@ -18,29 +17,14 @@ $result = mysqli_query($con, $loginQuery);
 $row = mysqli_fetch_assoc($result);
 
 if ($row) {
-    // Successfully Login Message.
-    $onLoginSuccess = 'Login Matched';
-
-    // Access other columns like 'name'
-	$id = $row['id'];
-    $name = $row['name'];
-	$username = $row['username'];
-	$email_ad = $row['email'];
-	$pos = $row['position'];
-
-
-
-    // Create an associative array with the response data.
     $response = array(
-        'message' => $onLoginSuccess,
-		'id' => $id,
-		'username' => $username,
-        'name' => $name,
-		'email_ad' => $email_ad,
-		'pos' => $pos
-	
+        'message' => 'Login Matched',
+		'id' => $row['id'],
+        'username' => $row['username'],
+        'name' => $row['name'],
+        'email_ad' => $row['email'],
+        'position' => $row['position']
     );
-
     // Converting the message into JSON format.
     $SuccessMSG = json_encode($response);
 
