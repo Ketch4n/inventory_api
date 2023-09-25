@@ -1,18 +1,11 @@
 <?php
-
-include 'db.php';
-
-
-
+include '../db/database.php';
 // Check the connection
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
-
 // User ID or username (replace with the actual value)
 $userId = $_POST['id'];
-
-
 // SQL query to fetch data for a single user
 $sql = "SELECT * FROM users WHERE id = $userId";
 

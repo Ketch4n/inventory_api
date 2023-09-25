@@ -1,6 +1,6 @@
 <?php
 // Establish database connection
-include 'db.php';
+include '../db/database.php';
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
@@ -9,10 +9,13 @@ if ($con->connect_error) {
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Extract data from the data
-$categoryName = $data['category'];
+$own = $data['name'];
+$str = $data['store'];
+$gps = $data['location'];
+
 
 // Insert data into the "category" table
-$sqlCategory = "INSERT INTO category (category) VALUES ('$categoryName')";
+$sqlCategory = "INSERT INTO customers (name,store,location) VALUES ('$own','$str','$gps')";
 
 $response = array();
 
@@ -20,11 +23,11 @@ $response = array();
 if ($con->query($sqlCategory) === TRUE) {
     // Category insertion successful
     $response["status"] = "success";
-    $response["message"] = "Data inserted into the 'category' table successfully";
+    $response["message"] = "Data inserted into the 'customer' table successfully";
 } else {
     // Error occurred while inserting into the "category" table
     $response["status"] = "error";
-    $response["message"] = "Error: Failed to insert data into the 'category' table";
+    $response["message"] = "Error: Failed to insert data into the 'customer' table";
 }
 
 // Close database connection

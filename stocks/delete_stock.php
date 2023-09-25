@@ -1,18 +1,16 @@
 <?php
-include 'db.php';
 
+include '../db/database.php';
 // Check connection
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
-
 $id = $_POST['id'];
 
 // Delete the stock data
 $sql_stock = "DELETE FROM stocks WHERE id = '$id'";
-
 // Delete the transaction data
-$sql_transaction = "DELETE FROM transactions WHERE stock_id = '$id'";
+$sql_transaction = "DELETE FROM transactions WHERE item_id = '$id'";
 
 // Perform the stock deletion
 if ($con->query($sql_stock) === TRUE) {
@@ -27,6 +25,6 @@ if ($con->query($sql_stock) === TRUE) {
 } else {
     echo "Error deleting stock: " . $con->error;
 }
-
+header('Content-Type: application/json');
 $conn->close();
 ?>

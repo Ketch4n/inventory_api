@@ -1,29 +1,25 @@
 <?php
-// Establish database connection
-include 'db.php';
+include '../db/database.php';
+
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
-
 // Get data from Flutter app
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Extract the date from the data
-$date = $data['date'];
 $item = $data['item'];
-$type = $data['type'];
 $category = $data['category'];
+$type = $data['type'];
 $price = $data['price'];
 $markup = $data['markup'];
-
-$quantity = $data['quantity'];
-
-// Convert the date to a valid SQL date format (assuming the date is in the format "yyyy-MM-dd HH:mm:ss")
+$date = $data['date'];
 $dateFormatted = date('Y-m-d H:i:s', strtotime($date));
 
-// Insert data into the first table ("stocks")
-$sqlStocks = "INSERT INTO stocks (item, type, category, price,markup,initial_qnt, date) VALUES ('$item', '$type', '$category', '$price','$markup','$quantity', '$dateFormatted')";
+$quantity = $data['item_quantity'];
 
+// Insert data into the first table ("stocks")
+$sqlStocks = "INSERT INTO stocks (item, category,type, price,markup, date) VALUES ('$item', '$category', '$type','$price','$markup','$dateFormatted')";
 $response = array();
 
 // Perform the insertion into the first table
@@ -32,7 +28,7 @@ if ($con->query($sqlStocks) === TRUE) {
     $generatedId = $con->insert_id;
     $state = 'in';
     // Insert data into the second table ("transactions") using the same ID
-    $sqlTransactions = "INSERT INTO transactions (stock_id, quantity, price,markup,state, date) VALUES ('$generatedId', '$quantity', '$price','$markup','$state', '$dateFormatted')";
+    $sqlTransactions = "INSERT INTO transactions (item_id, item_quantity, state, date) VALUES ('$generatedId', '$quantity', '$state', '$dateFormatted')";
 
     if ($con->query($sqlTransactions) === TRUE) {
         // Both insertions successful

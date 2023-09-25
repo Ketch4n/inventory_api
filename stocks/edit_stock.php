@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include '../db/database.php';
 // Assuming you have a database connection established
 
 // Check if the request method is POST
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = array('status' => 'error', 'message' => 'Invalid request method');
     echo json_encode($response);
 }
-
+header('Content-Type: application/json');
 // Close the database connection
 $con->close();
 

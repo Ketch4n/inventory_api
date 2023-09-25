@@ -1,13 +1,12 @@
 <?php
-include 'db.php'; // Include your database connection
 
+include '../db/database.php';
 // Check connection
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
-
 // Fetch id and category values from the database
- $query = "SELECT * FROM customers";
+ $query = "SELECT * FROM category";
 
     $result = $con->query($query);
 

@@ -1,6 +1,6 @@
 <?php
 // Include your database connection configuration
-include 'db.php';
+include '../db/database.php';
 
 // Check if stock_id parameter is provided in the request
 if (isset($_GET['id'])) {
